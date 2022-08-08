@@ -2,6 +2,15 @@ from tkinter import *
 from tkinter import ttk
 from tkinter.ttk import Style
 
+class Ranui:
+    def __init__(self, name, allowance):
+        self.name = name
+        self.allowance = allowance
+
+nikau = Ranui("Nikau", 300)
+hana = Ranui("Hana", 300)
+tia = Ranui("Tia", 300)
+
 class Gui:
 
     def __init__(self, parent):
