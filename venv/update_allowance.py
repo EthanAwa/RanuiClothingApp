@@ -1,6 +1,19 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter.ttk import Style
+import re
+
+class Ranui:
+    def __init__(self, name, allowance):
+        self.name = name
+        self.allowance = allowance
+
+nikau = Ranui("Nikau", 300)
+hana = Ranui("Hana", 300)
+tia = Ranui("Tia", 300)
+
+# test = nikau
+# print(test.name, test.allowance)
 
 class Gui:
 
@@ -15,8 +28,8 @@ class Gui:
         # Child name (printing for testing)
         self.name = StringVar()
 
-        # Base allowance of 300
-        self.allowance = 300
+        # # Base allowance of 300
+        # self.allowance = 300
 
         # Frame to contain everything
         self.main_frame = Frame(bg=background, pady=10)
@@ -55,19 +68,7 @@ class Gui:
                                     font=("Helvetica", 14, "bold"), fg="white")
         self.show_allowance.grid(row=3, columnspan=3)
 
-        # Button to check/change bonuses, row 4.
-        self.bonus_check_btn = ttk.Button(text="Bonuses", command=print("Who can get the bonus"))
-        self.bonus_check_btn.grid(row=4, column=0)
-
-        # Button to signify end of year. Will be used to check for bonus once user wants to, row 4.
-        self.end_year_btn = ttk.Button(text="End the year", command=print("Year has ended."))
-        self.end_year_btn.grid(row=4, column=1)
-
-        # Help button, instructions + possible video, row 4
-        self.help_btn = ttk.Button(text="Instructions", command=print("Help me!"))
-        self.help_btn.grid(row=4, column=2)
-
-    # Prints out whatever kid you pick in show_allowance text field. Just to see if button selection works.
+    # Print command
     def print(self):
         name = self.name.get()
         if name == "Nikau":
