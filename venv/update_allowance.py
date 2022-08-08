@@ -1,7 +1,6 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter.ttk import Style
-import re
 
 class Ranui:
     def __init__(self, name, allowance):
