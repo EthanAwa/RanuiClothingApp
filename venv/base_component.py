@@ -15,7 +15,7 @@ class Gui:
 
     def __init__(self, parent):
         # Main Background color, others will be specified when used
-        background = "#C402DE" # Dark pink, contrasts with other colors in the 3 color filters on Windows.
+        background = "#C402DE" # Dark purple, contrasts with other colors in the 3 color filters on Windows.
 
         # Set up styling for tkk.[object], which usually can't have styling such as bg="", fg="", etc.
         style = Style()
@@ -118,14 +118,14 @@ class Gui:
             text = "Please choose one of the kids."
             self.show_allowance.configure(text=text)
 
-        # If a kid is selected, but the entry box is blank...
-        elif cost == '':
+        # If a kid is selected, but the entry box is blank OR the user enters 0...
+        elif cost == '' or int(cost) == 0:
             text = "Please enter a whole number larger than 0."
             self.show_allowance.configure(text=text)
 
         # If the input is a string or float...
         elif cost_check == False:
-            text = "Please enter a whole number larger than 0."
+            text = "Please enter a whole number."
             self.show_allowance.configure(text=text)
 
         # If the input is an integer...
@@ -134,7 +134,7 @@ class Gui:
             print(name.allowance)
             text = f"{name.name}\'s Allowance: ${name.allowance}"
             self.show_allowance.configure(text=text)
-            print("hopefully only shows when successful")
+            # print("hopefully only shows when successful")
 
 
 if __name__ == '__main__':
