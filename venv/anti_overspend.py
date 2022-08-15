@@ -11,11 +11,14 @@ nikau = Ranui("Nikau", 300)
 hana = Ranui("Hana", 300)
 tia = Ranui("Tia", 300)
 
+# test = nikau
+# print(test.name, test.allowance)
+
 class Gui:
 
     def __init__(self, parent):
         # Main Background color, others will be specified when used
-        background = "#C402DE" # Dark purple, contrasts with other colors in the 3 color filters on Windows.
+        background = "#C402DE" # Dark pink, contrasts with other colors in the 3 color filters on Windows.
 
         # Set up styling for tkk.[object], which usually can't have styling such as bg="", fg="", etc.
         style = Style()
@@ -24,8 +27,8 @@ class Gui:
         # Child name (printing for testing)
         self.name = StringVar()
 
-        # Base allowance of 300
-        self.allowance = 300
+        # # Base allowance of 300
+        # self.allowance = 300
 
         # Frame to contain everything
         self.main_frame = Frame(bg=background, pady=10)
@@ -47,37 +50,24 @@ class Gui:
         self.tia_button = Radiobutton(text="Tia", variable=self.name, value="Tia",
                                       command=self.print, indicator=0, font=("Arial", 15, "bold"),
                                       background="#C47FDE", fg="black")
-        self.nikau_button.grid(row=1, column=0, padx=10)
-        self.hana_button.grid(row=1, column=1, padx=10)
-        self.tia_button.grid(row=1, column=2, padx=10)
+        self.nikau_button.grid(row=1, column=0)
+        self.hana_button.grid(row=1, column=1)
+        self.tia_button.grid(row=1, column=2)
 
         # User enters how much clothing costs, row 2
-        self.allowance_label = Label(bg=background, text="Cost of clothing", justify=RIGHT, font="Helvetica 13 bold"
-                                    , fg="white")
+        self.allowance_label = Label(bg=background, text="Cost of clothing", justify=RIGHT, font="Helvetica 14", fg="white")
         self.allowance_entry = Entry(bd=2, font=("Helvetica", 12), relief=SUNKEN)
         self.allowance_button = ttk.Button(text="Buy Clothing", command = self.buy_item)
-        self.allowance_label.grid(row=2, column=0, padx=10, pady=5)
-        self.allowance_entry.grid(row=2, column=1, padx=10, pady=5)
-        self.allowance_button.grid(row=2, column=2, padx=10, pady=5)
+        self.allowance_label.grid(row=2, column=0)
+        self.allowance_entry.grid(row=2, column=1)
+        self.allowance_button.grid(row=2, column=2, padx=5)
 
         # Show the child's allowance, row 3
         self.show_allowance = Label(bg=background, text="Pick a kid to see their allowance.",
                                     font=("Helvetica", 14, "bold"), fg="white")
-        self.show_allowance.grid(row=3, columnspan=3, padx=10, pady=5)
+        self.show_allowance.grid(row=3, columnspan=3)
 
-        # Button to check/change bonuses, row 4.
-        self.bonus_check_btn = ttk.Button(text="Bonuses", command=print("Who can get the bonus"))
-        self.bonus_check_btn.grid(row=4, column=0, padx=10)
-
-        # Button to signify end of year. Will be used to check for bonus once user wants to, row 4.
-        self.end_year_btn = ttk.Button(text="End the year", command=print("Year has ended."))
-        self.end_year_btn.grid(row=4, column=1, padx=10)
-
-        # Help button, instructions + possible video, row 4
-        self.help_btn = ttk.Button(text="Instructions", command=print("Help me!"))
-        self.help_btn.grid(row=4, column=2, padx=10)
-
-    # Prints out whatever kid you pick in show_allowance text field. Just to see if button selection works.
+    # Print command
     def print(self):
         name = self.name.get()
         if name == "Nikau":
@@ -132,8 +122,10 @@ class Gui:
         # If the input is an integer...
         else:
             name.allowance = name.allowance - int(cost)
+            print(name.allowance)
             text = f"{name.name}\'s Allowance: ${name.allowance}"
-        self.show_allowance.configure(text=text)
+            print("hopefully only shows when successful")
+    self.show_allowance.configure(text=text)
 
 if __name__ == '__main__':
     root = Tk()
