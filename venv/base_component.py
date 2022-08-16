@@ -34,7 +34,7 @@ class Gui:
         # Main window title, row 0
         self.title_label = Label(bg=background, text="Ranui Family Allowance Tracker",
                                  font=("Arial", 20, "bold"), fg="white", justify=CENTER)
-        self.title_label.grid(row=0, columnspan=3)
+        self.title_label.grid(row=0, columnspan=3, pady=3)
 
         # 3 radio buttons, 1 for each child. Row 1
         # The color #C47FDE is a light purple, contrasts with the background color in all Windows color filters.
@@ -47,9 +47,9 @@ class Gui:
         self.tia_button = Radiobutton(text="Tia", variable=self.name, value="Tia",
                                       command=self.print, indicator=0, font=("Arial", 15, "bold"),
                                       background="#C47FDE", fg="black")
-        self.nikau_button.grid(row=1, column=0, padx=10)
-        self.hana_button.grid(row=1, column=1, padx=10)
-        self.tia_button.grid(row=1, column=2, padx=10)
+        self.nikau_button.grid(row=1, column=0)
+        self.hana_button.grid(row=1, column=1)
+        self.tia_button.grid(row=1, column=2)
 
         # User enters how much clothing costs, row 2
         self.allowance_label = Label(bg=background, text="Cost of clothing", justify=RIGHT, font="Helvetica 13 bold"
@@ -67,15 +67,15 @@ class Gui:
 
         # Button to check/change bonuses, row 4.
         self.bonus_check_btn = ttk.Button(text="Bonuses", command=print("Who can get the bonus"))
-        self.bonus_check_btn.grid(row=4, column=0, padx=10)
+        self.bonus_check_btn.grid(row=4, column=0, padx=5, pady=10)
 
         # Button to signify end of year. Will be used to check for bonus once user wants to, row 4.
         self.end_year_btn = ttk.Button(text="End the year", command=print("Year has ended."))
-        self.end_year_btn.grid(row=4, column=1, padx=10)
+        self.end_year_btn.grid(row=4, column=1, padx=5, pady=10)
 
         # Help button, instructions + possible video, row 4
         self.help_btn = ttk.Button(text="Instructions", command=print("Help me!"))
-        self.help_btn.grid(row=4, column=2, padx=10)
+        self.help_btn.grid(row=4, column=2, padx=5, pady=10)
 
     # Prints out whatever kid you pick in show_allowance text field. Just to see if button selection works.
     def print(self):
