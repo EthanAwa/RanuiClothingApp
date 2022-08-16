@@ -118,8 +118,8 @@ class Gui:
         if name not in [nikau, hana, tia]:
             text = "Please choose one of the kids."
 
-        # If a kid is selected, but the entry box is blank...
-        elif cost == '':
+        # If a kid is selected, but the entry box is blank or is 0...
+        elif cost == '' or int(cost) == 0:
             text = "Please enter a whole number larger than 0."
 
         # If the input is a string or float...
