@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import messagebox
 from tkinter import ttk
 from tkinter.ttk import Style
 
@@ -21,11 +22,10 @@ class Gui:
         style = Style()
         style.configure("TButton", font=("Arial", 11), bd=3) # ttk.Button doesn't allow for "font='' " unless in Style()
 
-        # Child name (printing for testing)
         self.name = StringVar()
-
-        # Base allowance of 300
-        self.allowance = 300
+        #
+        # # Base allowance of 300
+        # self.allowance = 300
 
         # Frame to contain everything
         self.main_frame = Frame(bg=background, pady=10)
@@ -76,6 +76,19 @@ class Gui:
         # Help button, instructions + possible video, row 4
         self.help_btn = ttk.Button(text="Instructions", command=print("Help me!"))
         self.help_btn.grid(row=4, column=2, padx=5, pady=10)
+        self.askuser()
+
+    # Asks the user if they've used the program before
+    def askuser(self):
+        res = messagebox.askquestion("Dear User", "Have you used this program before?")
+        if res == "no":
+            messagebox.showinfo("Instructions", "Step 1: Pick the pick whose allowance you are spending.\n"
+                                                "Step 2: Enter the cost of the clothing into the box under the names.\n"
+                                                "Step 3: Press the \"Buy Clothing\" button to buy the clothing.\n"
+                                                "If you need more help, please press the \"Instructions\" button.")
+        else:
+            messagebox.showinfo("Enjoy", "Cool, enjoy using the program.")
+
 
     # Prints out whatever kid you pick in show_allowance text field. Just to see if button selection works.
     def print(self):
