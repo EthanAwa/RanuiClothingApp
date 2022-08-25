@@ -28,7 +28,7 @@ class Gui:
         # self.allowance = 300
 
         # Frame to contain everything
-        self.main_frame = Frame(bg=background, pady=10)
+        self.main_frame = Frame(bg=background, pady=10, padx=3)
         self.main_frame.grid(columnspan=3)
 
         # Main window title, row 0
@@ -74,7 +74,7 @@ class Gui:
         self.end_year_btn.grid(row=4, column=1, padx=5, pady=10)
 
         # Help button, instructions + possible video, row 4
-        self.help_btn = ttk.Button(text="Instructions", command=print("Help me!"))
+        self.help_btn = ttk.Button(text="Instructions", command=self.instructions)
         self.help_btn.grid(row=4, column=2, padx=5, pady=10)
         self.askuser()
 
@@ -82,12 +82,32 @@ class Gui:
     def askuser(self):
         res = messagebox.askquestion("Dear User", "Have you used this program before?")
         if res == "no":
-            messagebox.showinfo("Instructions", "Step 1: Pick the pick whose allowance you are spending.\n"
-                                                "Step 2: Enter the cost of the clothing into the box under the names.\n"
-                                                "Step 3: Press the \"Buy Clothing\" button to buy the clothing.\n"
-                                                "If you need more help, please press the \"Instructions\" button.")
+            messagebox.showinfo("Instructions",
+                                "Step 1: Pick the pick whose allowance you are spending.\n"
+                                "Step 2: Enter the cost of the clothing into the box under the names.\n"
+                                "Step 3: Press the \"Buy Clothing\" button to buy the clothing.\n\n"
+                                "More information about other parts of the program can be found by pressing the "
+                                "\"Instructions\" button.")
         else:
             messagebox.showinfo("Enjoy", "Cool, enjoy using the program.")
+
+    def instructions(self):
+        messagebox.showinfo("Instructions: How to Buy Clothing",
+                            "In this Allowance Tracker, you are able to select the child who is "
+                            "spending money. To do so, click on their name at the top of the program, "
+                            "and type in the amount they are spending in the box below. Then, press "
+                            "the \"Buy Clothing\" button to take that money out of their allowance.")
+
+        messagebox.showinfo("Instructions: Bonuses",
+                            "If at any point one of the kids allowances goes below $50, they will "
+                            "no longer be able to get the bonus of their choice. Once their allowance "
+                            "reaches less than $100, there will be a warning about their allowance getting low.")
+
+        messagebox.showinfo("Instructions: Ending the Year",
+                            "If you would like the end the year, you can press the button at the middle bottom "
+                            "of the screen. This button will stop you from being able to input anything in "
+                            "the main window, and will bring up an overview of each kid's allowance, their bonus, "
+                            "and if they can get it or not.")
 
 
     # Prints out whatever kid you pick in show_allowance text field. Just to see if button selection works.
@@ -139,6 +159,7 @@ class Gui:
         elif cost_check == False:
             text = "Please enter a whole number larger than 0."
 
+        # If the input is over current allowance or negative...
         elif int(cost) < 0 or name.allowance - int(cost) < 0:
             text = "You can't add money or overspend your allowance."
 
