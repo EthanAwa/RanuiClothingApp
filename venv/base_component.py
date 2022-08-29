@@ -1,3 +1,4 @@
+import tkinter
 from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
@@ -12,7 +13,7 @@ nikau = Ranui("Nikau", 300)
 hana = Ranui("Hana", 300)
 tia = Ranui("Tia", 300)
 
-class Gui:
+class Gui():
 
     def __init__(self, parent):
         # Main Background color, others will be specified when used
@@ -70,13 +71,17 @@ class Gui:
         self.bonus_check_btn.grid(row=4, column=0, padx=5, pady=10)
 
         # Button to signify end of year. Will be used to check for bonus once user wants to, row 4.
-        self.end_year_btn = ttk.Button(text="End the year", command=print("Year has ended."))
+        self.end_year_btn = ttk.Button(text="End the year", command=lambda: self.end_year(self.disable))
         self.end_year_btn.grid(row=4, column=1, padx=5, pady=10)
 
         # Help button, instructions + possible video, row 4
         self.help_btn = ttk.Button(text="Instructions", command=self.instructions)
         self.help_btn.grid(row=4, column=2, padx=5, pady=10)
         self.askuser()
+
+        # List of all buttons/entry boxes to be disabled later
+        self.disable = [self.nikau_button, self.hana_button, self.tia_button, self.allowance_button,
+                   self.allowance_entry, self.help_btn, self.bonus_check_btn, self.end_year_btn]
 
     # Asks the user if they've used the program before
     def askuser(self):
@@ -124,7 +129,7 @@ class Gui:
         self.show_allowance.configure(text=text)
 
     # Is input integer? (Currently only used in buy_item, may be used in other places though)
-    def isint(self, num):
+    def is_int(self, num):
         try:
             int(num)
             return True
@@ -144,8 +149,8 @@ class Gui:
         elif name == "Tia":
             name = tia
 
-        # Calls isint(), basic input checker
-        cost_check = self.isint(cost)
+        # Calls is_int(), basic input checker
+        cost_check = self.is_int(cost)
 
         # If no kid has been selected...
         if name not in [nikau, hana, tia]:
@@ -169,9 +174,54 @@ class Gui:
             text = f"{name.name}\'s Allowance: ${name.allowance}"
         self.show_allowance.configure(text=text)
 
+    # End the Year Button window
+    def end_year(self, children):
+        
+        res = messagebox.askquestion("Warning",
+                                     "Are you sure that you want to end the year? Ending the year will "
+                                     "disable all input in the Allowance Manager.")
+        if res == "yes":
+            for widget in children:
+                widget.configure(state=DISABLED)
+            End_Year(self)
+        else:
+            messagebox.showinfo("Warning", "Enjoy using the program again.")
+
+class End_Year:
+    def __init__(self, partner):
+        background = "#D94F2B"
+
+        # Spawn new window above main window
+        self.overview_box = Toplevel()
+
+        # Set up overview window frame
+        self.overview_frame = Frame(self.overview_box, bg=background, pady=10, padx=3)
+        self.overview_frame.grid()
+
+        # Title label
+        self.title = Label(self.overview_frame, text="Overview of the Year",
+                           font="Arial 20 bold", bg=background, fg="white")
+        self.title.grid(columnspan=2, row=0)
+
+        # Following two comments/code sections will be removed in final product, only exist for testing here.
+        # For now, show a message saying "The year has ended, thank for you using the program."
+        self.test_msg = Label(self.overview_frame, text="The year has been ended.\nThank you for using the program.",
+                              font="Arial 15", bg=background, fg="white")
+        self.test_msg.grid(columnspan=2, row=1)
+
+        # Tell user to press close to shut down program
+        self.close_label = Label(self.overview_frame, text="Press the Close button to close the program.",
+                                 font="Arial 15", bg=background, fg="white")
+        self.close_btn = Button(self.overview_frame, text="Close", font="Arial 13 bold",
+                                bg="#F07A3B", fg="white", command=root.destroy)
+        self.close_label.grid(columnspan=2, row=2)
+        self.close_btn.grid(columnspan=2, row=3)
+        print(nikau.allowance, hana.allowance, tia.allowance)
+
 if __name__ == '__main__':
     root = Tk()
     root.title("Ranui Clothing App")
     root.configure(background="#C402DE")
+    root.resizable(False, False)
     window = Gui(root)
     root.mainloop()
