@@ -223,18 +223,28 @@ class End_Year:
                               font="Arial 16 bold", bg=background, fg="white")
         self.overview.grid(columnspan=2, row=1)
 
+        # Loop to add children spending/bonus into overview window, more effecient.
+        # Row counter
         k = 2
         for i in range(3):
             name = [nikau, hana, tia]
             check = name[i].check
+
+            # Bonus check
             if check == True:
                 check = f"{name[i].name} can get their bonus ({name[i].bonus})."
+            else:
+                check = f"{name[i].name} can not get their bonus ({name[i].bonus})"
+
+            # Name/allowance Label
             self.kid_overview = Label(self.overview_frame, text=f"{name[i].name}: ${name[i].allowance}",
                                       font="Arial 14", bg=background, fg="white")
+            # Bonus check Label
             self.kid_overview_bonus = Label(self.overview_frame, text=f"{check}",
                                             font="Arial 14", bg=background, fg="white")
             self.kid_overview.grid(column=0, row=k)
             self.kid_overview_bonus.grid(column=1, row=k)
+
             k += 1
 
         # Tell user to press close to shut down program
