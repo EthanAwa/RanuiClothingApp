@@ -5,13 +5,15 @@ from tkinter import ttk
 from tkinter.ttk import Style
 
 class Ranui:
-    def __init__(self, name, allowance):
+    def __init__(self, name, allowance, bonus, check): # Check = is child eligible for the bonus.
         self.name = name
         self.allowance = allowance
+        self.bonus = bonus
+        self.check = check
 
-nikau = Ranui("Nikau", 300)
-hana = Ranui("Hana", 300)
-tia = Ranui("Tia", 300)
+nikau = Ranui("Nikau", 300, "", True)
+hana = Ranui("Hana", 300, "", True)
+tia = Ranui("Tia", 300, "", True)
 
 class Gui():
 
@@ -188,11 +190,19 @@ class Gui():
             messagebox.showinfo("Warning", "Enjoy using the program again.")
 
 class End_Year:
+
+    # Disable Windows built in [X] button
+    def disable_exit(self):
+        pass
+
     def __init__(self, partner):
         background = "#D94F2B"
 
         # Spawn new window above main window
         self.overview_box = Toplevel()
+
+        # Disable Windows built in [X] button
+        self.overview_box.protocol("WM_DELETE_WINDOW", self.disable_exit)
 
         # Set up overview window frame
         self.overview_frame = Frame(self.overview_box, bg=background, pady=10, padx=3)
@@ -203,19 +213,37 @@ class End_Year:
                            font="Arial 20 bold", bg=background, fg="white")
         self.title.grid(columnspan=2, row=0)
 
-        # Following two comments/code sections will be removed in final product, only exist for testing here.
-        # For now, show a message saying "The year has ended, thank for you using the program."
-        self.test_msg = Label(self.overview_frame, text="The year has been ended.\nThank you for using the program.",
-                              font="Arial 15", bg=background, fg="white")
-        self.test_msg.grid(columnspan=2, row=1)
+        # # Following comments/code sections will be removed in final product, only exist for testing here.
+        # # For now, show a message saying "The year has ended, thank for you using the program."
+        # self.test_msg = Label(self.overview_frame, text="The year has been ended.\nThank you for using the program.",
+        #                       font="Arial 15", bg=background, fg="white")
+        # self.test_msg.grid(columnspan=2, row=1)
+
+        self.overview = Label(self.overview_frame, text="Here's how your children's spending looks.",
+                              font="Arial 16 bold", bg=background, fg="white")
+        self.overview.grid(columnspan=2, row=1)
+
+        k = 2
+        for i in range(3):
+            name = [nikau, hana, tia]
+            check = name[i].check
+            if check == True:
+                check = f"{name[i].name} can get their bonus ({name[i].bonus})."
+            self.kid_overview = Label(self.overview_frame, text=f"{name[i].name}: ${name[i].allowance}",
+                                      font="Arial 14", bg=background, fg="white")
+            self.kid_overview_bonus = Label(self.overview_frame, text=f"{check}",
+                                            font="Arial 14", bg=background, fg="white")
+            self.kid_overview.grid(column=0, row=k)
+            self.kid_overview_bonus.grid(column=1, row=k)
+            k += 1
 
         # Tell user to press close to shut down program
         self.close_label = Label(self.overview_frame, text="Press the Close button to close the program.",
-                                 font="Arial 15", bg=background, fg="white")
+                                 font="Arial 15 bold", bg=background, fg="white")
         self.close_btn = Button(self.overview_frame, text="Close", font="Arial 13 bold",
                                 bg="#F07A3B", fg="white", command=root.destroy)
-        self.close_label.grid(columnspan=2, row=2)
-        self.close_btn.grid(columnspan=2, row=3)
+        self.close_label.grid(columnspan=2, row=5)
+        self.close_btn.grid(columnspan=2, row=6)
         print(nikau.allowance, hana.allowance, tia.allowance)
 
 if __name__ == '__main__':
