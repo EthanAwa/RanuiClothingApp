@@ -355,6 +355,7 @@ class Bonus:
         elif name == "Tia":
             name = tia
 
+        # Change text to match bonus update.
         name.bonus = bonus
         text = f"{name.name}'s bonus: {name.bonus}"
         self.show_bonus.configure(text=text)
