@@ -55,9 +55,9 @@ class Gui():
         self.tia_button.grid(row=1, column=2)
 
         # User enters how much clothing costs, row 2
-        self.allowance_label = Label(bg=background, text="Cost of clothing", justify=RIGHT, font="Helvetica 13 bold"
-                                    , fg="white")
-        self.allowance_entry = Entry(bd=2, font=("Helvetica", 12), relief=SUNKEN)
+        self.allowance_label = Label(bg=background, text="Cost of clothing", justify=RIGHT,
+                                     font="Arial 13 bold", fg="white")
+        self.allowance_entry = Entry(bd=2, font=("Arial", 12), relief=SUNKEN)
         self.allowance_button = ttk.Button(text="Buy Clothing", command = self.buy_item)
         self.allowance_label.grid(row=2, column=0, padx=10, pady=5)
         self.allowance_entry.grid(row=2, column=1, padx=10, pady=5)
@@ -65,11 +65,11 @@ class Gui():
 
         # Show the child's allowance, row 3
         self.show_allowance = Label(bg=background, text="Pick a kid to see their allowance.",
-                                    font=("Helvetica", 14, "bold"), fg="white")
+                                    font=("Arial", 14, "bold"), fg="white")
         self.show_allowance.grid(row=3, columnspan=3, padx=10, pady=5)
 
         # Button to check/change bonuses, row 4.
-        self.bonus_check_btn = ttk.Button(text="Bonuses", command=print("Who can get the bonus"))
+        self.bonus_check_btn = ttk.Button(text="Bonuses", command=self.bonus)
         self.bonus_check_btn.grid(row=4, column=0, padx=5, pady=10)
 
         # Button to signify end of year. Will be used to check for bonus once user wants to, row 4.
@@ -107,8 +107,7 @@ class Gui():
 
         messagebox.showinfo("Instructions: Bonuses",
                             "If at any point one of the kids allowances goes below $50, they will "
-                            "no longer be able to get the bonus of their choice. Once their allowance "
-                            "reaches less than $100, there will be a warning about their allowance getting low.")
+                            "no longer be able to get the bonus of their choice.")
 
         messagebox.showinfo("Instructions: Ending the Year",
                             "If you would like the end the year, you can press the button at the middle bottom "
@@ -178,16 +177,22 @@ class Gui():
 
     # End the Year Button window
     def end_year(self, children):
-        
-        res = messagebox.askquestion("Warning",
-                                     "Are you sure that you want to end the year? Ending the year will "
-                                     "disable all input in the Allowance Manager.")
-        if res == "yes":
-            for widget in children:
-                widget.configure(state=DISABLED)
-            End_Year(self)
+        if nikau.bonus == "" or hana.bonus == "" or tia.bonus == "":
+            messagebox.showwarning("Bonuses Not Assigned",
+                                   "Please let your children pick a bonus using the \"Bonuses\" button.")
         else:
-            messagebox.showinfo("Warning", "Enjoy using the program again.")
+            res = messagebox.askquestion("Warning",
+                                         "Are you sure that you want to end the year? Ending the year will "
+                                         "disable all input in the Allowance Manager.")
+            if res == "yes":
+                for widget in children:
+                    widget.configure(state=DISABLED)
+                End_Year(self)
+            else:
+                messagebox.showinfo("Warning", "Enjoy using the program again.")
+
+    def bonus(self):
+        Bonus()
 
 class End_Year:
 
@@ -228,6 +233,8 @@ class End_Year:
         k = 2
         for i in range(3):
             name = [nikau, hana, tia]
+            if name[i].allowance < 50:
+                name[i].check = False
             check = name[i].check
 
             # Bonus check
@@ -244,17 +251,113 @@ class End_Year:
                                             font="Arial 14", bg=background, fg="white")
             self.kid_overview.grid(column=0, row=k)
             self.kid_overview_bonus.grid(column=1, row=k)
-
+            print(name[i].name, name[i].allowance, name[i].bonus, name[i].check)
             k += 1
 
         # Tell user to press close to shut down program
         self.close_label = Label(self.overview_frame, text="Press the Close button to close the program.",
                                  font="Arial 15 bold", bg=background, fg="white")
         self.close_btn = Button(self.overview_frame, text="Close", font="Arial 13 bold",
-                                bg="#F07A3B", fg="white", command=root.destroy)
+                                bg="#F07A3B", fg="white", command=self.close)
         self.close_label.grid(columnspan=2, row=5)
         self.close_btn.grid(columnspan=2, row=6)
-        print(nikau.allowance, hana.allowance, tia.allowance)
+
+    def close(self):
+        messagebox.showinfo("Thank You",
+                            "Thank you for using this program.")
+        root.destroy()
+
+class Bonus:
+
+    # Disable Windows built in [X] button
+    def disable_exit(self):
+        pass
+
+    def __init__(self):
+        background = "#3E76ED"
+
+        self.name = StringVar()
+
+        # Spawn new window above main window
+        self.bonus_box = Toplevel()
+
+        # Disable Windows built in [X] button
+        self.bonus_box.protocol("WM_DELETE_WINDOW", self.disable_exit)
+
+        # Set up bonus window frame
+        self.bonus_frame = Frame(self.bonus_box, bg=background, pady=10, padx=3)
+        self.bonus_frame.grid()
+
+        # Window Header
+        self.bonus_header = Label(self.bonus_frame, text="Pick your children's bonuses",
+                                  font="Arial 16 bold", bg=background, fg="white")
+        self.bonus_header.grid(row=0, columnspan=3)
+
+        # RadioButton for child selection
+        self.nikau_button = Radiobutton(self.bonus_frame, text="Nikau", variable=self.name, value="Nikau",
+                                        command=self.print, indicator=0, font=("Arial", 15, "bold"),
+                                        background="#34D8F7", fg="black")
+        self.hana_button = Radiobutton(self.bonus_frame, text="Hana", variable=self.name, value="Hana",
+                                       command=self.print, indicator=0, font=("Arial", 15, "bold"),
+                                       background="#34D8F7", fg="black")
+        self.tia_button = Radiobutton(self.bonus_frame, text="Tia", variable=self.name, value="Tia",
+                                      command=self.print, indicator=0, font=("Arial", 15, "bold"),
+                                      background="#34D8F7", fg="black")
+        self.nikau_button.grid(row=1, column=0)
+        self.hana_button.grid(row=1, column=1)
+        self.tia_button.grid(row=1, column=2)
+
+        # Entry box section
+        self.bonus_label = Label(self.bonus_frame, bg=background, text="Child's Bonus", justify=RIGHT,
+                                 font="Arial 13 bold", fg="white")
+        self.bonus_entry = Entry(self.bonus_frame, bd=2, font=("Arial", 12), relief=SUNKEN)
+        self.bonus_button = ttk.Button(self.bonus_frame, text="Set Bonus", command=self.setbonus)
+        self.bonus_label.grid(row=2, column=0, padx=10, pady=5)
+        self.bonus_entry.grid(row=2, column=1, padx=10, pady=5)
+        self.bonus_button.grid(row=2, column=2, padx=10, pady=5)
+
+        # Show who has been selected
+        self.show_bonus = Label(self.bonus_frame, bg=background, text="Pick a kid to see their bonus.",
+                                font=("Arial", 14, "bold"), fg="white")
+        self.show_bonus.grid(row=3, columnspan=3, padx=10, pady=5)
+
+        # Tell user to hit close to close this window
+        self.close_label = Label(self.bonus_frame, text="Press the Close button to close this window",
+                                 font="Arial 15 bold", bg=background, fg="white")
+        self.close_label.grid(row=4, columnspan=3)
+        # Close Button
+        self.close = Button(self.bonus_frame, text="Close", font="Arial 13 bold",
+                            bg="#34D8F7", fg="black", command=self.bonus_box.destroy)
+        self.close.grid(row=5, columnspan=3)
+
+    # Update show_bonus with the child selected
+    def print(self):
+        name = self.name.get()
+        if name == "Nikau":
+            name = nikau
+        elif name == "Hana":
+            name = hana
+        else:
+            name = tia
+
+        text = f"{name.name}\'s Bonus: {name.bonus}"
+        self.show_bonus.configure(text=text)
+
+    def setbonus(self):
+        name = self.name.get()
+        bonus = self.bonus_entry.get()
+
+        # Check what kid is selected
+        if name == "Nikau":
+            name = nikau
+        elif name == "Hana":
+            name = hana
+        elif name == "Tia":
+            name = tia
+
+        name.bonus = bonus
+        text = f"{name.name}'s bonus: {name.bonus}"
+        self.show_bonus.configure(text=text)
 
 if __name__ == '__main__':
     root = Tk()
