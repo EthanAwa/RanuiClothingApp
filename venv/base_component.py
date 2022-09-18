@@ -340,7 +340,7 @@ class Bonus:
         else:
             name = tia
 
-        text = f"{name.name}\'s Bonus: {name.bonus}"
+        text = f"{name.name}\'s bonus: {name.bonus}"
         self.show_bonus.configure(text=text)
 
     def setbonus(self):
@@ -355,9 +355,12 @@ class Bonus:
         elif name == "Tia":
             name = tia
 
-        # Change text to match bonus update.
-        name.bonus = bonus
-        text = f"{name.name}'s bonus: {name.bonus}"
+        # If no kid has been selected...
+        if name not in [nikau, hana, tia]:
+            text = "Please choose one of the kids."
+        else:
+            name.bonus = bonus
+            text = f"{name.name}'s bonus: {name.bonus}"
         self.show_bonus.configure(text=text)
 
 if __name__ == '__main__':
