@@ -358,6 +358,8 @@ class Bonus:
         # If no kid has been selected...
         if name not in [nikau, hana, tia]:
             text = "Please choose one of the kids."
+        elif bonus == "" or bonus == " ":
+            text = "Please enter a bonus, this can not be blank."
         else:
             name.bonus = bonus
             text = f"{name.name}'s bonus: {name.bonus}"
