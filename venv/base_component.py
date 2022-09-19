@@ -90,7 +90,7 @@ class Gui():
         res = messagebox.askquestion("Dear User", "Have you used this program before?")
         if res == "no":
             messagebox.showinfo("Instructions",
-                                "Step 1: Pick the pick whose allowance you are spending.\n"
+                                "Step 1: Pick the kid whose allowance you are spending.\n"
                                 "Step 2: Enter the cost of the clothing into the box under the names.\n"
                                 "Step 3: Press the \"Buy Clothing\" button to buy the clothing.\n\n"
                                 "More information about other parts of the program can be found by pressing the "
